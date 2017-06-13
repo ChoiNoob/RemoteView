@@ -107,11 +107,14 @@ public class MainActivity extends AppCompatActivity {
 
         remoteViews = new RemoteViews(getPackageName(),R.layout.notification_custom_type);
 
+        Intent intent;
+        PendingIntent pIntent;
+
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent intent = new Intent(this, MainActivity.class);
+        intent = new Intent(this, MainActivity.class);
         intent.setPackage(this.getPackageName());
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Notification.Builder notification = new Notification.Builder(this);
         notification.setSmallIcon(R.drawable.ic_notification);
@@ -126,10 +129,14 @@ public class MainActivity extends AppCompatActivity {
 
         remoteViews.setImageViewResource(R.id.notification_icon, R.mipmap.ic_launcher);
         //remoteViews.setImageViewResource(R.id.notification_image_btn,R.drawable.ic_notification);
-        remoteViews.setImageViewBitmap(R.id.notification_image_btn,BitmapFactory.decodeResource(getResources(),R.drawable.notification_btn));
+        remoteViews.setImageViewBitmap(R.id.notification_image_btn, BitmapFactory.decodeResource(getResources(), R.drawable.notification_btn));
         remoteViews.setTextViewText(R.id.notification_title, "这是自定义view的title");
         remoteViews.setTextViewText(R.id.notification_content, "这是自定义view的content");
         remoteViews.setTextViewText(R.id.notification_time,getCurrentTime());
+
+        intent = new Intent(this,Main2Activity.class);
+        pIntent = PendingIntent.getActivity(MainActivity.this,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+
         notification.setContent(remoteViews);
         notification.setContentIntent(pIntent);
 
@@ -137,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         build.flags = Notification.FLAG_AUTO_CANCEL;
         manager.notify(0, build);
 
+        remoteViews.setOnClickPendingIntent(R.id.notification_image_btn, pIntent); // 点击btn跳转并且通知栏消失，不消失放到138行之后就行
     }
 
     protected String getCurrentTime() {
