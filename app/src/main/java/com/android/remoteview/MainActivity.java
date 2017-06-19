@@ -21,11 +21,19 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
     private RemoteViews remoteViews = null;
+    private android.os.Handler handler = new android.os.Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                showSystemNotification();
+            }
+        };
+        handler.postDelayed(run,8000);
     }
 
     @Override
@@ -39,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.system_notification:
-                showSystemNotification();
+                // showSystemNotification();
                 break;
             case R.id.custom_notification:
                 showRemoteViewsNotification();
